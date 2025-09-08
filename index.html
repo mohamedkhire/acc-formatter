@@ -4,16 +4,31 @@
   <!-- ====== Meta (SEO + Social) ====== -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Account Formatter — Squid Store</title>
-  <meta name="description" content="Format and copy account lines fast with instant search, a flexible card grid, and smart notifications." />
+  
   <meta name="author" content="Mohamed Khire" />
   <meta name="robots" content="index,follow" />
-  <meta property="og:title" content="Account Formatter — Squid Store" />
-  <meta property="og:description" content="Format and copy account lines fast with instant search, card grid & smart toasts." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://github.com/mohamedkhire" />
-  <meta property="og:image" content="https://avatars.githubusercontent.com/u/00000000?v=4" />
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#105745" />
+<!-- Primary Meta Tags -->
+<title>Account Formatter — Squid Store</title>
+<meta name="title" content="Account Formatter — Squid Store" />
+<meta name="description" content="Format and copy your account lines in a clean, ready template—instant search, flexible card grid, and smart notifications." />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="acc-formatter.vercel.app" />
+<meta property="og:title" content="Account Formatter — Squid Store" />
+<meta property="og:description" content="Format and copy your account lines in a clean, ready template—instant search, flexible card grid, and smart notifications." />
+<meta property="og:image" content="https://media.discordapp.net/attachments/869433569737572362/1414627647673204828/90_1x_shots_so.png" />
+
+<!-- X (Twitter) -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="acc-formatter.vercel.app" />
+<meta property="twitter:title" content="Account Formatter — Squid Store" />
+<meta property="twitter:description" content="Format and copy your account lines in a clean, ready template—instant search, flexible card grid, and smart notifications." />
+<meta property="twitter:image" content="https://media.discordapp.net/attachments/869433569737572362/1414627647673204828/90_1x_shots_so.png" />
+
+
+
 
   <!-- Fonts + Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -136,7 +151,6 @@
     .btn:hover::before{transform:translateX(120%)}
 
     /* ================= Main / Panels ================= */
-/* ضيف السطر دا داخل :root عندك مرة واحدة لو مش موجود */
 :root{ --panel-gap: clamp(16px, 2.8vw, 36px); }
 
 /* ============= Layout ============= */
@@ -144,8 +158,8 @@
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 20px var(--side-pad) 40px;
-  display: grid;                 /* NEW: نخليها Grid */
-  row-gap: var(--panel-gap);     /* NEW: المسافة بين بانل الإدخال وبانل الإخراج */
+  display: grid;                 
+  row-gap: var(--panel-gap);     
 }
 
 .panel{
@@ -184,10 +198,10 @@ textarea::placeholder{color:#8c8f92}
 /* ============= Cards Grid (2-per-row محسّنة) ============= */
 .cards{display:grid; gap:18px; grid-template-columns:1fr}
 .cards.one{grid-template-columns:minmax(0, 1fr)}
-.cards.two{ /* عرضين بحد أدنى مريح علشان النص يقرأ كويس */
+.cards.two{ 
   grid-template-columns: repeat(2, minmax(480px, 1fr));
 }
-@media (max-width:1100px){ .cards.two{ grid-template-columns:1fr } } /* ترجع صف واحد */
+@media (max-width:1100px){ .cards.two{ grid-template-columns:1fr } } 
 
 /* ============= Card ============= */
 .account-card{
