@@ -8,27 +8,24 @@
   <meta name="author" content="Mohamed Khire" />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#105745" />
-<!-- Primary Meta Tags -->
-<title>Account Formatter - Squid Store</title>
-<meta name="title" content="Account Formatter — Squid Store" />
-<meta name="description" content="Format and copy your account lines in a clean, ready template—instant search, flexible card grid, and smart notifications." />
+  <!-- Primary Meta Tags -->
+  <title>Account Formatter - Squid Store</title>
+  <meta name="title" content="Account Formatter — Squid Store" />
+  <meta name="description" content="Format and copy your account lines in a clean, ready template—instant search, flexible card grid, and smart notifications." />
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content="acc-formatter.vercel.app" />
-<meta property="og:title" content="Account Formatter — Squid Store" />
-<meta property="og:description" content="Format and copy your account lines in a clean, ready template—instant search, flexible card grid, and smart notifications." />
-<meta property="og:image" content="https://i.ibb.co/0p5LX23W/acc-formatter.png" />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="acc-formatter.vercel.app" />
+  <meta property="og:title" content="Account Formatter — Squid Store" />
+  <meta property="og:description" content="Format and copy your account lines in a clean, ready template—instant search, flexible card grid, and smart notifications." />
+  <meta property="og:image" content="https://i.ibb.co/0p5LX23W/acc-formatter.png" />
 
-<!-- X (Twitter) -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content="acc-formatter.vercel.app" />
-<meta property="twitter:title" content="Account Formatter — Squid Store" />
-<meta property="twitter:description" content="Format and copy your account lines in a clean, ready template—instant search, flexible card grid, and smart notifications." />
-<meta property="twitter:image" content="https://i.ibb.co/0p5LX23W/acc-formatter.png" />
-
-
-
+  <!-- X (Twitter) -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="acc-formatter.vercel.app" />
+  <meta property="twitter:title" content="Account Formatter — Squid Store" />
+  <meta property="twitter:description" content="Format and copy your account lines in a clean, ready template—instant search, flexible card grid, and smart notifications." />
+  <meta property="twitter:image" content="https://i.ibb.co/0p5LX23W/acc-formatter.png" />
 
   <!-- Fonts + Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -48,7 +45,7 @@
 
       /* layout */
       --container-max: 1200px;
-      --side-pad: clamp(20px, 6vw, 48px);   /* ⟵ more breathing room left/right */
+      --side-pad: clamp(20px, 6vw, 48px);
       --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s7:28px; --s8:32px;
       --r-sm:10px; --r-md:14px; --r-lg:18px; --r-xl:24px;
       --shadow-1:0 8px 22px rgba(0,0,0,.35); --shadow-2:0 16px 38px rgba(0,0,0,.45);
@@ -77,7 +74,7 @@
       position:sticky; top:0; z-index:50;
       display:flex; align-items:center; justify-content:space-between;
       padding-block: 14px;
-      padding-inline: var(--side-pad);            /* ⟵ increased L/R padding */
+      padding-inline: var(--side-pad);
       background:linear-gradient(180deg, #080808, var(--bg));
       border-bottom:1px solid var(--border);
       backdrop-filter:saturate(130%) blur(6px);
@@ -102,8 +99,8 @@
     .icon-link:hover{transform:translateY(-1px); box-shadow:0 16px 32px color-mix(in srgb, var(--brand) 42%, transparent)}
 
     /* ================= Hero ================= */
-.hero{ text-align:center; padding-block: clamp(20px, 4vw, 36px); }
-.hero-wrap{ max-width: var(--container-max); margin:0 auto; }
+    .hero{ text-align:center; padding-block: clamp(20px, 4vw, 36px); }
+    .hero-wrap{ max-width: var(--container-max); margin:0 auto; }
 
     .hero{
       padding-block: 28px 14px;
@@ -115,12 +112,57 @@
     .hero .accent{color:var(--brand)}
     .hero p{margin:10px 0 0; color:var(--muted); font-size: clamp(13px, 1.6vw, 15.5px)}
 
-    /* ================= Toolbar ================= */
-    .toolbar{
-      max-width:var(--container-max); margin:16px auto 0;
-      padding-inline: var(--side-pad);
-      display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;
+    /* ================= Main / Panels ================= */
+    :root{ --panel-gap: clamp(16px, 2.8vw, 36px); }
+
+    .container{
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 20px var(--side-pad) 40px;
+      display: grid;                 
+      row-gap: var(--panel-gap);     
     }
+
+    .panel{
+      background:#0b0b0b;
+      border:1px solid var(--border);
+      border-radius:18px;
+      box-shadow:var(--shadow-1);
+      padding:18px;
+    }
+
+    /* Heads (Input/Output headers) */
+    .input-head,
+    .result-head{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:10px; border:1px solid var(--border); border-radius:14px; background:#0e0e0e;
+      margin-bottom:12px;
+      flex-wrap:wrap; /* let controls wrap on small screens */
+    }
+    .input-actions{
+      display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-left:auto;
+    }
+
+    textarea{
+      width:100%; min-height:240px; max-height:460px; resize:vertical;
+      background:var(--card); border:1px solid var(--border); border-radius:14px;
+      color:var(--text); padding:18px; line-height:1.9; font-size:clamp(14px, 1.4vw, 15.5px);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+    }
+    textarea::placeholder{color:#8c8f92}
+    .hint{font-size:13px; color:#b7c3be; margin-top:8px}
+
+    /* Inline search */
+    .inline-search{position:relative; display:flex; align-items:center}
+    .inline-search i{position:absolute; left:12px; color:#8c8f92}
+    .search{
+      padding:10px 14px; padding-left:38px; width:min(460px, 72vw);
+      border-radius:999px; border:1px solid var(--border); outline:none; background:var(--card); color:var(--text);
+      transition:border-color var(--easing), box-shadow var(--easing)
+    }
+    .search:focus{border-color:var(--brand); box-shadow:0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent)}
+
+    /* Chips / segments / buttons */
     .chip{
       display:inline-flex; align-items:center; gap:8px; padding:8px 12px;
       border:1px solid var(--border); border-radius:999px; background:#0e0e0e; color:var(--muted); font-size:13px;
@@ -141,7 +183,6 @@
     .btn:hover{transform:translateY(-2px); box-shadow:var(--shadow-2)}
     .btn.secondary{--bg:linear-gradient(135deg, color-mix(in srgb, var(--brand) 76%, white), var(--brand))}
 
-    /* subtle sweep on hover */
     .btn::before{
       content:""; position:absolute; inset:0; border-radius:inherit;
       background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.18) 15%, transparent 30%);
@@ -150,69 +191,21 @@
     }
     .btn:hover::before{transform:translateX(120%)}
 
-    /* ================= Main / Panels ================= */
-:root{ --panel-gap: clamp(16px, 2.8vw, 36px); }
+    /* Cards grid */
+    .cards{display:grid; gap:18px; grid-template-columns:1fr}
+    .cards.one{grid-template-columns:minmax(0, 1fr)}
+    .cards.two{ grid-template-columns: repeat(2, minmax(480px, 1fr)); }
+    @media (max-width:1100px){ .cards.two{ grid-template-columns:1fr } } 
 
-/* ============= Layout ============= */
-.container{
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 20px var(--side-pad) 40px;
-  display: grid;                 
-  row-gap: var(--panel-gap);     
-}
-
-.panel{
-  background:#0b0b0b;
-  border:1px solid var(--border);
-  border-radius:18px;
-  box-shadow:var(--shadow-1);
-  padding:18px;
-}
-
-/* ============= Input ============= */
-textarea{
-  width:100%; min-height:240px; max-height:460px; resize:vertical;
-  background:var(--card); border:1px solid var(--border); border-radius:14px;
-  color:var(--text); padding:18px; line-height:1.9; font-size:clamp(14px, 1.4vw, 15.5px);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
-}
-textarea::placeholder{color:#8c8f92}
-.hint{font-size:13px; color:var(--muted); margin-top:8px}
-
-/* ============= Output Header ============= */
-.result-wrap{display:grid; gap:14px}
-.result-head{
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  padding:10px; border:1px solid var(--border); border-radius:14px; background:#0e0e0e;
-}
-.inline-search{position:relative; display:flex; align-items:center}
-.inline-search i{position:absolute; left:12px; color:#8c8f92}
-.search{
-  padding:10px 14px; padding-left:38px; width:min(460px, 72vw);
-  border-radius:999px; border:1px solid var(--border); outline:none; background:var(--card); color:var(--text);
-  transition:border-color var(--easing), box-shadow var(--easing)
-}
-.search:focus{border-color:var(--brand); box-shadow:0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent)}
-
-/* ============= Cards Grid (2-per-row محسّنة) ============= */
-.cards{display:grid; gap:18px; grid-template-columns:1fr}
-.cards.one{grid-template-columns:minmax(0, 1fr)}
-.cards.two{ 
-  grid-template-columns: repeat(2, minmax(480px, 1fr));
-}
-@media (max-width:1100px){ .cards.two{ grid-template-columns:1fr } } 
-
-/* ============= Card ============= */
-.account-card{
-  position:relative; border:1px solid #2a2a2a; border-radius:16px; padding:18px;
-  background:linear-gradient(180deg, #171717, #141414);
-  box-shadow:var(--shadow-1), inset 0 1px 0 rgba(255,255,255,.02);
-  transition:transform .25s, box-shadow .25s, border-color .25s, background .25s;
-  animation:cardIn .45s var(--easing) both;
-  will-change: transform;
-}
-
+    /* Card */
+    .account-card{
+      position:relative; border:1px solid #2a2a2a; border-radius:16px; padding:18px;
+      background:linear-gradient(180deg, #171717, #141414);
+      box-shadow:var(--shadow-1), inset 0 1px 0 rgba(255,255,255,.02);
+      transition:transform .25s, box-shadow .25s, border-color .25s, background .25s;
+      animation:cardIn .45s var(--easing) both;
+      will-change: transform;
+    }
     .account-card:hover{transform:translateY(-3px); box-shadow:var(--shadow-2); border-color:#2f2f2f}
     @keyframes cardIn{from{opacity:0; transform:translateY(10px) scale(.98)} to{opacity:1; transform:none}}
 
@@ -220,7 +213,6 @@ textarea::placeholder{color:#8c8f92}
     .card-title{display:flex; align-items:center; gap:10px; font-weight:800; color:var(--brand); font-size:clamp(14px, 1.3vw, 16px)}
     .badge{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:color-mix(in srgb, var(--brand) 18%, transparent); color:#01f1b5; font-size:12px; border:1px solid color-mix(in srgb, var(--brand) 30%, transparent)}
 
-    /* card actions */
     .card-icons{display:flex; gap:8px}
     .icon-action{
       width:38px; height:38px; border-radius:999px; display:grid; place-items:center; cursor:pointer;
@@ -234,17 +226,16 @@ textarea::placeholder{color:#8c8f92}
     .row{display:flex; gap:10px; align-items:center}
     .row i{width:18px; text-align:center; color:var(--brand)}
     .row .val{
-      overflow-wrap:anywhere; word-break:break-word;   /* ⟵ no overflow in 2-per-row */
+      overflow-wrap:anywhere; word-break:break-word;
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
       font-size:.95em; color:#e7fdf8;
     }
     .sep{opacity:.35; border:none; height:1px; background:linear-gradient(90deg, transparent, #2a2a2a, transparent); margin:8px 0}
 
-    /* small inline copy buttons (kept) */
-    .copy-mini{border:none; background:#101010; border:1px solid var(--border); border-radius:999px; padding:4px 8px; cursor:pointer; color:var(--text); font-weight:700}
+    .copy-mini{border:none; background:#101010; border:1px solid var(--border); border-radius:999px; padding:4px 8px; cursor:pointer; color:#fff; font-weight:700}
     .copy-mini:hover{background:color-mix(in srgb, var(--brand) 16%, transparent); color:#001f17}
 
-    /* ================= Toasts (Notification Center) ================= */
+    /* ================= Toasts ================= */
     .toasts{position:fixed; right:16px; bottom:16px; z-index:1000; display:flex; flex-direction:column; gap:10px}
     .toast{display:flex; align-items:center; gap:10px; min-width:240px; background:#0f0f0f; color:#e8fdfa; border:1px solid #2a2a2a; border-radius:14px; padding:10px 12px; box-shadow:var(--shadow-2); transform:translateX(140%) translateY(6px) scale(.98); opacity:0; transition:transform .5s cubic-bezier(.22,.61,.36,1), opacity .5s ease; backdrop-filter:blur(6px)}
     .toast.show{transform:translateX(0) translateY(0) scale(1); opacity:1}
@@ -254,18 +245,18 @@ textarea::placeholder{color:#8c8f92}
     .toast.warn{border-left:5px solid var(--warning)}
     .toast .icon{width:22px; height:22px; display:grid; place-items:center}
 
-    /* ================= Footer (perfect center) ================= */
+    /* ================= Footer ================= */
     .footer{
       border-top:1px solid var(--border);
       background:#090909;
       padding-block: 30px;
-      padding-inline: var(--side-pad);  /* ⟵ more side padding */
+      padding-inline: var(--side-pad);
       margin-top:28px;
     }
     .footer-inner{
       max-width:var(--container-max);
       margin:0 auto;
-      display:flex; align-items:center; justify-content:center; /* ⟵ centered */
+      display:flex; align-items:center; justify-content:center;
       gap:12px; color:#96a19e; text-align:center; flex-wrap:wrap;
     }
     .footer .icon-link{width:34px; height:34px}
@@ -294,30 +285,32 @@ textarea::placeholder{color:#8c8f92}
     </div>
   </header>
 
-  <!-- Toolbar -->
-  <div class="toolbar">
-    <div class="chip"><i class="fa-solid fa-list-check"></i> Valid lines: <b id="lineCount" class="counter">0</b></div>
-
-    <div class="seg" id="modeSeg" role="tablist" aria-label="Account pairing">
-      <button type="button" class="active" data-mode="1account" role="tab" aria-selected="true"><i class="fa-solid fa-user"></i> Single account</button>
-      <button type="button" data-mode="2accounts" role="tab" aria-selected="false"><i class="fa-solid fa-user-group"></i> Two accounts</button>
-    </div>
-
-    <div class="seg" id="gridSeg" role="tablist" aria-label="Grid density">
-      <button type="button" class="active" data-grid="one" role="tab" aria-selected="true"><i class="fa-solid fa-square"></i> 1 per row</button>
-      <button type="button" data-grid="two" role="tab" aria-selected="false"><i class="fa-solid fa-table-cells"></i> 2 per row</button>
-    </div>
-
-    <div style="display:flex; gap:12px;">
-      <button id="formatBtn" class="btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate</button>
-      <button id="copyAllBtn" class="btn secondary"><i class="fa-solid fa-copy"></i> Copy all</button>
-    </div>
-  </div>
-
   <!-- Main -->
   <main class="container">
     <!-- Input -->
     <section class="panel">
+      <!-- Input header with controls on the right -->
+      <div class="input-head">
+        <span class="chip"><i class="fa-solid fa-box-archive"></i> Input</span>
+        <div class="input-actions">
+          <div class="chip" title="Valid lines from the textarea">
+            <i class="fa-solid fa-list-check"></i> Valid lines: <b id="lineCount" class="counter">0</b>
+          </div>
+
+          <div class="seg" id="modeSeg" role="tablist" aria-label="Account pairing">
+            <button type="button" class="active" data-mode="1account" role="tab" aria-selected="true"><i class="fa-solid fa-user"></i> Single account</button>
+            <button type="button" data-mode="2accounts" role="tab" aria-selected="false"><i class="fa-solid fa-user-group"></i> Two accounts</button>
+          </div>
+
+          <div class="seg" id="gridSeg" role="tablist" aria-label="Grid density">
+            <button type="button" class="active" data-grid="one" role="tab" aria-selected="true"><i class="fa-solid fa-square"></i> 1 per row</button>
+            <button type="button" data-grid="two" role="tab" aria-selected="false"><i class="fa-solid fa-table-cells"></i> 2 per row</button>
+          </div>
+
+          <button id="formatBtn" class="btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate</button>
+        </div>
+      </div>
+
       <textarea id="inputText" placeholder="Paste lines here…
 Example:
 user@mail.com pass123 123.abc.xyz pass123 ABCDEFGHIJKLMNOP"></textarea>
@@ -328,16 +321,26 @@ user@mail.com pass123 123.abc.xyz pass123 ABCDEFGHIJKLMNOP"></textarea>
     <section class="panel result-wrap">
       <div class="result-head">
         <span class="chip"><i class="fa-solid fa-box-archive"></i> Output</span>
-        <div class="inline-search">
+
+        <!-- Right side: search + actions -->
+        <div class="inline-search" style="margin-left:auto; gap:10px; display:flex; align-items:center;">
           <i class="fa-solid fa-magnifying-glass"></i>
           <input id="search" class="search" type="search" placeholder="Search in results…" />
+
+          <!-- Header actions -->
+          <button id="copyAllBtn" class="btn secondary" title="Copy all results">
+            <i class="fa-solid fa-copy"></i> Copy all
+          </button>
+          <button id="exportBtn" class="btn" title="Export results to .txt">
+            <i class="fa-solid fa-file-export"></i> Export
+          </button>
         </div>
       </div>
       <div id="cards" class="cards one" aria-live="polite"></div>
     </section>
   </main>
 
-  <!-- Footer (centered) -->
+  <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
       <a class="icon-link" href="https://github.com/mohamedkhire" target="_blank" rel="noopener" title="GitHub — Mohamed Khire">
@@ -354,13 +357,14 @@ user@mail.com pass123 123.abc.xyz pass123 ABCDEFGHIJKLMNOP"></textarea>
     const $  = (s,scope=document)=>scope.querySelector(s);
     const $$ = (s,scope=document)=>Array.from(scope.querySelectorAll(s));
 
-    const inputEl   = $('#inputText');
-    const formatBtn = $('#formatBtn');
-    const copyAllBtn= $('#copyAllBtn');
-    const cardsEl   = $('#cards');
+    const inputEl     = $('#inputText');
+    const formatBtn   = $('#formatBtn');
+    const copyAllBtn  = $('#copyAllBtn');
+    const exportBtn   = $('#exportBtn');
+    const cardsEl     = $('#cards');
     const lineCountEl = $('#lineCount');
-    const searchEl  = $('#search');
-    const toastsEl  = $('#toasts');
+    const searchEl    = $('#search');
+    const toastsEl    = $('#toasts');
 
     /* Counter */
     const countValid = (text)=> text.split('\n').map(l=>l.trim()).filter(l=>l && l.split(/\s+/).length>=5).length;
@@ -403,13 +407,9 @@ user@mail.com pass123 123.abc.xyz pass123 ABCDEFGHIJKLMNOP"></textarea>
 `2FA Setup Video: https://streamable.com/49ijq0
 Token Login Google Extension: https://chromewebstore.google.com/detail/discord-token-login/dgejhipdiojpnoggmehdiicanhnbdngk`;
 
-    const buildBlock = (parts)=>{
-      const [email='', password='', token='', _ignored='', twofa=''] = parts;
-      return `Email + Discord: ${email}
-Password + Discord: ${password}
-Token: ${token}
-2FA Key: ${twofa}`;
-    };
+    // Separators between exported/copied blocks (outside-card joiners)
+    const ACCOUNT_DELIM = "______________________________________________________________________";
+    const PAIR_DELIM    = ACCOUNT_DELIM + "\n" + ACCOUNT_DELIM;
 
     function copyText(txt){
       return navigator.clipboard.writeText(txt).then(()=>{
@@ -429,7 +429,7 @@ Token: ${token}
       return {good, bad};
     };
 
-    /* Card renderer (with stagger for entrance) */
+    /* Card renderer */
     function renderCard(index, partsList){
       const card = document.createElement('div');
       card.className = 'account-card';
@@ -472,9 +472,30 @@ Token: ${token}
         if(idx<partsList.length-1) body.append(Object.assign(document.createElement('hr'),{className:'sep'}));
       });
 
-     
       card.append(header, body);
       return card;
+    }
+
+    /* Build text for a single card (used by per-card copy, copy-all, export) */
+    function buildCardText(partsList, mode){
+      const build = (p)=>`Email + Discord: ${p[0]||''}
+Password + Discord: ${p[1]||''}
+Token: ${p[2]||''}
+2FA Key: ${p[4]||''}`;
+
+      if(mode === 'single'){
+        return `${build(partsList[0])}
+${SEP_SINGLE}
+${LINKS_BLOCK}`;
+      }else{
+        const first  = build(partsList[0]);
+        const second = build(partsList[1] || ['','','','','']);
+        return `${first}
+${SEP_SINGLE}
+${second}
+${SEP_DOUBLE_LAST}
+${LINKS_BLOCK}`;
+      }
     }
 
     /* Generate */
@@ -507,50 +528,71 @@ Token: ${token}
       const card = e.target.closest('.account-card'); if(!card) return;
 
       const partsList = JSON.parse(card.dataset.raw || '[]');
-      const build = (p)=>`Email + Discord: ${p[0]||''}
-Password + Discord: ${p[1]||''}
-Token: ${p[2]||''}
-2FA Key: ${p[4]||''}`;
-
       const act = actBtn.getAttribute('data-act');
+
       if(act==='delete'){
         card.remove();
         toast('Card removed', 'danger', '<i class="fa-solid fa-trash-can"></i>');
         return;
       }
       if(act==='copy'){
-        let textOut = '';
-        if(card.dataset.mode==='single'){
-          textOut = `${build(partsList[0])}\n${SEP_SINGLE}\n${LINKS_BLOCK}`;
-        }else{
-          const first  = build(partsList[0]);
-          const second = build(partsList[1] || ['','','','','']);
-          textOut = `${first}\n${SEP_SINGLE}\n${second}\n${SEP_DOUBLE_LAST}\n${LINKS_BLOCK}`;
-        }
-        copyText(textOut);
+        const out = buildCardText(partsList, card.dataset.mode);
+        copyText(out);
       }
     });
 
-    /* Copy all */
+    /* Copy all (in Output header) */
     copyAllBtn.addEventListener('click', ()=>{
       const cards = $$('.account-card', cardsEl);
-      if(!cards.length){ toast('Nothing to copy', 'warn', '<i class="fa-solid fa-triangle-exclamation"></i>'); return; }
-      const build = (p)=>`Email + Discord: ${p[0]||''}
-Password + Discord: ${p[1]||''}
-Token: ${p[2]||''}
-2FA Key: ${p[4]||''}`;
+      if(!cards.length){
+        toast('Nothing to copy', 'warn', '<i class="fa-solid fa-triangle-exclamation"></i>');
+        return;
+      }
 
-      const texts = cards.map(card=>{
+      const blocks = cards.map(card=>{
         const partsList = JSON.parse(card.dataset.raw || '[]');
-        if(card.dataset.mode==='single'){
-          return `${build(partsList[0])}\n${SEP_SINGLE}\n${LINKS_BLOCK}`;
-        }else{
-          const first  = build(partsList[0]);
-          const second = build(partsList[1] || ['','','','','']);
-          return `${first}\n${SEP_SINGLE}\n${second}\n${SEP_DOUBLE_LAST}\n${LINKS_BLOCK}`;
-        }
+        return buildCardText(partsList, card.dataset.mode);
       });
-      copyText(texts.join('\n\n'));
+
+      const fullText = blocks.map((block, i)=>{
+        const mode = cards[i].dataset.mode;
+        const delim = (mode === 'single') ? ACCOUNT_DELIM : PAIR_DELIM;
+        return block + "\n" + delim;
+      }).join("\n").trim();
+
+      copyText(fullText);
+    });
+
+    /* Export to .txt (in Output header) */
+    exportBtn.addEventListener('click', ()=>{
+      const cards = $$('.account-card', cardsEl);
+      if(!cards.length){
+        toast('Nothing to export', 'warn', '<i class="fa-solid fa-triangle-exclamation"></i>');
+        return;
+      }
+
+      const blocks = cards.map(card=>{
+        const partsList = JSON.parse(card.dataset.raw || '[]');
+        return buildCardText(partsList, card.dataset.mode);
+      });
+
+      const fullText = blocks.map((block, i)=>{
+        const mode = cards[i].dataset.mode;
+        const delim = (mode === 'single') ? ACCOUNT_DELIM : PAIR_DELIM;
+        return block + "\n" + delim;
+      }).join("\n").trim();
+
+      const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'accounts.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      toast('Exported accounts.txt', 'success', '<i class="fa-solid fa-circle-check"></i>');
     });
 
     /* Search */
@@ -566,6 +608,3 @@ Token: ${p[2]||''}
   </script>
 </body>
 </html>
-
-
-
