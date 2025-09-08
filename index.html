@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <!-- ====== Meta (SEO + Social) ====== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Account Formatter — Squid Store</title>
+  <meta name="description" content="Format and copy account lines fast with instant search, a flexible card grid, and smart notifications." />
+  <meta name="author" content="Mohamed Khire" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Account Formatter — Squid Store" />
+  <meta property="og:description" content="Format and copy account lines fast with instant search, card grid & smart toasts." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://github.com/mohamedkhire" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/00000000?v=4" />
+  <meta name="theme-color" content="#000000" />
+
+  <!-- Fonts + Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    /* ================= Design Tokens (Your Palette) ================= */
+    :root{
+      /* palette */
+      --bg:#000000; --bg2:#000000;
+      --surface:#0c0c0c; --card:#222222;
+      --text:#F5F7F7; --muted:#b7c3be; --border:#2a2a2a;
+      --brand:#1DCD9F; --brand-2:#169976;
+      --success:#1DCD9F; --info:#22b892; --warning:#f5b84b; --danger:#ff5c5c;
+
+      /* layout */
+      --container-max: 1200px;
+      --side-pad: clamp(20px, 6vw, 48px);   /* ⟵ more breathing room left/right */
+      --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s7:28px; --s8:32px;
+      --r-sm:10px; --r-md:14px; --r-lg:18px; --r-xl:24px;
+      --shadow-1:0 8px 22px rgba(0,0,0,.35); --shadow-2:0 16px 38px rgba(0,0,0,.45);
+      --easing:.28s cubic-bezier(.2,.8,.2,1);
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    }
+
+    /* ================= Base ================= */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:'Inter',system-ui,Segoe UI,Arial,sans-serif; color:var(--text);
+      background:
+        radial-gradient(900px 600px at 110% -40%, color-mix(in srgb, var(--brand) 14%, transparent), transparent 60%),
+        radial-gradient(800px 520px at -10% 120%, color-mix(in srgb, var(--brand-2) 16%, transparent), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      background-attachment: fixed;
+    }
+    a{color:var(--brand); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* ================= Navbar ================= */
+    .navbar{
+      position:sticky; top:0; z-index:50;
+      display:flex; align-items:center; justify-content:space-between;
+      padding-block: 14px;
+      padding-inline: var(--side-pad);            /* ⟵ increased L/R padding */
+      background:linear-gradient(180deg, #080808, var(--bg));
+      border-bottom:1px solid var(--border);
+      backdrop-filter:saturate(130%) blur(6px);
+    }
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand .logo{
+      width:44px; height:44px; border-radius:12px; display:grid; place-items:center;
+      background:linear-gradient(135deg, var(--brand), var(--brand-2));
+      color:#001f17; font-weight:900; box-shadow:0 12px 26px color-mix(in srgb, var(--brand) 35%, transparent);
+      transition:transform var(--easing), box-shadow var(--easing);
+    }
+    .brand .logo:hover{transform:translateY(-1px); box-shadow:0 16px 36px color-mix(in srgb, var(--brand) 42%, transparent)}
+    .brand .title{font-weight:800; letter-spacing:.2px; font-size: clamp(16px, 2.2vw, 20px)}
+    .nav-actions{display:flex; align-items:center; gap:12px}
+    .icon-link{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:44px; height:44px; border-radius:999px; color:#001f17;
+      background:linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow:0 10px 22px color-mix(in srgb, var(--brand) 28%, transparent);
+      transition:transform var(--easing), box-shadow var(--easing);
+    }
+    .icon-link:hover{transform:translateY(-1px); box-shadow:0 16px 32px color-mix(in srgb, var(--brand) 42%, transparent)}
+
+    /* ================= Hero ================= */
+.hero{ text-align:center; padding-block: clamp(20px, 4vw, 36px); }
+.hero-wrap{ max-width: var(--container-max); margin:0 auto; }
+
+    .hero{
+      padding-block: 28px 14px;
+      padding-inline: var(--side-pad);
+      border-bottom:1px solid var(--border);
+      background:linear-gradient(180deg, #0a0a0a, #090909)
+    }
+    .hero h1{margin:0; font-size:clamp(28px, 4.2vw, 42px); font-weight:800}
+    .hero .accent{color:var(--brand)}
+    .hero p{margin:10px 0 0; color:var(--muted); font-size: clamp(13px, 1.6vw, 15.5px)}
+
+    /* ================= Toolbar ================= */
+    .toolbar{
+      max-width:var(--container-max); margin:16px auto 0;
+      padding-inline: var(--side-pad);
+      display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px;
+      border:1px solid var(--border); border-radius:999px; background:#0e0e0e; color:var(--muted); font-size:13px;
+    }
+    .counter{font-weight:800; color:var(--brand)}
+    .seg{display:inline-flex; gap:6px; padding:6px; border:1px solid var(--border); border-radius:999px; background:#0e0e0e}
+    .seg button{
+      border:none; cursor:pointer; padding:10px 14px; border-radius:999px; min-height:44px;
+      color:var(--text); background:transparent; font-weight:700; transition:background var(--easing), transform var(--easing)
+    }
+    .seg button.active{background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#001f17; box-shadow:0 10px 24px color-mix(in srgb, var(--brand) 35%, transparent)}
+    .btn{
+      --bg:linear-gradient(135deg, var(--brand), var(--brand-2));
+      display:inline-flex; align-items:center; gap:10px; justify-content:center; min-height:44px;
+      border:none; color:#001f17; padding:12px 18px; border-radius:14px; cursor:pointer; background:var(--bg);
+      box-shadow:var(--shadow-1); font-weight:800; min-width:150px; transition:transform var(--easing), box-shadow var(--easing)
+    }
+    .btn:hover{transform:translateY(-2px); box-shadow:var(--shadow-2)}
+    .btn.secondary{--bg:linear-gradient(135deg, color-mix(in srgb, var(--brand) 76%, white), var(--brand))}
+
+    /* subtle sweep on hover */
+    .btn::before{
+      content:""; position:absolute; inset:0; border-radius:inherit;
+      background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.18) 15%, transparent 30%);
+      transform:translateX(-120%); transition:transform .6s ease;
+      pointer-events:none; mix-blend-mode:overlay;
+    }
+    .btn:hover::before{transform:translateX(120%)}
+
+    /* ================= Main / Panels ================= */
+/* ضيف السطر دا داخل :root عندك مرة واحدة لو مش موجود */
+:root{ --panel-gap: clamp(16px, 2.8vw, 36px); }
+
+/* ============= Layout ============= */
+.container{
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 20px var(--side-pad) 40px;
+  display: grid;                 /* NEW: نخليها Grid */
+  row-gap: var(--panel-gap);     /* NEW: المسافة بين بانل الإدخال وبانل الإخراج */
+}
+
+.panel{
+  background:#0b0b0b;
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:var(--shadow-1);
+  padding:18px;
+}
+
+/* ============= Input ============= */
+textarea{
+  width:100%; min-height:240px; max-height:460px; resize:vertical;
+  background:var(--card); border:1px solid var(--border); border-radius:14px;
+  color:var(--text); padding:18px; line-height:1.9; font-size:clamp(14px, 1.4vw, 15.5px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+}
+textarea::placeholder{color:#8c8f92}
+.hint{font-size:13px; color:var(--muted); margin-top:8px}
+
+/* ============= Output Header ============= */
+.result-wrap{display:grid; gap:14px}
+.result-head{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:10px; border:1px solid var(--border); border-radius:14px; background:#0e0e0e;
+}
+.inline-search{position:relative; display:flex; align-items:center}
+.inline-search i{position:absolute; left:12px; color:#8c8f92}
+.search{
+  padding:10px 14px; padding-left:38px; width:min(460px, 72vw);
+  border-radius:999px; border:1px solid var(--border); outline:none; background:var(--card); color:var(--text);
+  transition:border-color var(--easing), box-shadow var(--easing)
+}
+.search:focus{border-color:var(--brand); box-shadow:0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent)}
+
+/* ============= Cards Grid (2-per-row محسّنة) ============= */
+.cards{display:grid; gap:18px; grid-template-columns:1fr}
+.cards.one{grid-template-columns:minmax(0, 1fr)}
+.cards.two{ /* عرضين بحد أدنى مريح علشان النص يقرأ كويس */
+  grid-template-columns: repeat(2, minmax(480px, 1fr));
+}
+@media (max-width:1100px){ .cards.two{ grid-template-columns:1fr } } /* ترجع صف واحد */
+
+/* ============= Card ============= */
+.account-card{
+  position:relative; border:1px solid #2a2a2a; border-radius:16px; padding:18px;
+  background:linear-gradient(180deg, #171717, #141414);
+  box-shadow:var(--shadow-1), inset 0 1px 0 rgba(255,255,255,.02);
+  transition:transform .25s, box-shadow .25s, border-color .25s, background .25s;
+  animation:cardIn .45s var(--easing) both;
+  will-change: transform;
+}
+
+    .account-card:hover{transform:translateY(-3px); box-shadow:var(--shadow-2); border-color:#2f2f2f}
+    @keyframes cardIn{from{opacity:0; transform:translateY(10px) scale(.98)} to{opacity:1; transform:none}}
+
+    .card-header{display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:12px}
+    .card-title{display:flex; align-items:center; gap:10px; font-weight:800; color:var(--brand); font-size:clamp(14px, 1.3vw, 16px)}
+    .badge{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:color-mix(in srgb, var(--brand) 18%, transparent); color:#01f1b5; font-size:12px; border:1px solid color-mix(in srgb, var(--brand) 30%, transparent)}
+
+    /* card actions */
+    .card-icons{display:flex; gap:8px}
+    .icon-action{
+      width:38px; height:38px; border-radius:999px; display:grid; place-items:center; cursor:pointer;
+      border:1px solid var(--border); background:#101010; color:#e9fffb; transition:transform var(--easing), background var(--easing), box-shadow var(--easing)
+    }
+    .icon-action:hover{transform:translateY(-2px); background:color-mix(in srgb, var(--brand) 16%, #101010); box-shadow:0 10px 20px rgba(0,0,0,.35)}
+    .icon-action.copy{color:#001f17; background:linear-gradient(135deg, var(--brand), var(--brand-2)); border:none}
+    .icon-action.delete{color:#2b0000; background:linear-gradient(135deg, #ff7a7a, #ff5c5c); border:none}
+
+    .rows{display:grid; gap:10px; line-height:1.85; font-size:15px}
+    .row{display:flex; gap:10px; align-items:center}
+    .row i{width:18px; text-align:center; color:var(--brand)}
+    .row .val{
+      overflow-wrap:anywhere; word-break:break-word;   /* ⟵ no overflow in 2-per-row */
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size:.95em; color:#e7fdf8;
+    }
+    .sep{opacity:.35; border:none; height:1px; background:linear-gradient(90deg, transparent, #2a2a2a, transparent); margin:8px 0}
+
+    /* small inline copy buttons (kept) */
+    .copy-mini{border:none; background:#101010; border:1px solid var(--border); border-radius:999px; padding:4px 8px; cursor:pointer; color:var(--text); font-weight:700}
+    .copy-mini:hover{background:color-mix(in srgb, var(--brand) 16%, transparent); color:#001f17}
+
+    /* ================= Toasts (Notification Center) ================= */
+    .toasts{position:fixed; right:16px; bottom:16px; z-index:1000; display:flex; flex-direction:column; gap:10px}
+    .toast{display:flex; align-items:center; gap:10px; min-width:240px; background:#0f0f0f; color:#e8fdfa; border:1px solid #2a2a2a; border-radius:14px; padding:10px 12px; box-shadow:var(--shadow-2); transform:translateX(140%) translateY(6px) scale(.98); opacity:0; transition:transform .5s cubic-bezier(.22,.61,.36,1), opacity .5s ease; backdrop-filter:blur(6px)}
+    .toast.show{transform:translateX(0) translateY(0) scale(1); opacity:1}
+    .toast.success{border-left:5px solid var(--success)}
+    .toast.info{border-left:5px solid var(--info)}
+    .toast.danger{border-left:5px solid var(--danger)}
+    .toast.warn{border-left:5px solid var(--warning)}
+    .toast .icon{width:22px; height:22px; display:grid; place-items:center}
+
+    /* ================= Footer (perfect center) ================= */
+    .footer{
+      border-top:1px solid var(--border);
+      background:#090909;
+      padding-block: 30px;
+      padding-inline: var(--side-pad);  /* ⟵ more side padding */
+      margin-top:28px;
+    }
+    .footer-inner{
+      max-width:var(--container-max);
+      margin:0 auto;
+      display:flex; align-items:center; justify-content:center; /* ⟵ centered */
+      gap:12px; color:#96a19e; text-align:center; flex-wrap:wrap;
+    }
+    .footer .icon-link{width:34px; height:34px}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar" aria-label="Global navigation">
+    <div class="brand">
+      <div class="logo"><i class="fa-solid fa-layer-group"></i></div>
+      <div class="title">Account Formatter — <span style="color:var(--brand)">Squid Store</span></div>
+    </div>
+    <div class="nav-actions">
+      <a class="icon-link" href="https://github.com/mohamedkhire" target="_blank" rel="noopener" title="GitHub — Mohamed Khire">
+        <i class="fa-brands fa-github"></i>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-wrap">
+      <h1>Account Formatter — <span class="accent">Squid Store</span></h1>
+      <p>Format and copy your account lines in a clean, ready template—instant search, a flexible card grid, and smart notifications.</p>
+    </div>
+  </header>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="chip"><i class="fa-solid fa-list-check"></i> Valid lines: <b id="lineCount" class="counter">0</b></div>
+
+    <div class="seg" id="modeSeg" role="tablist" aria-label="Account pairing">
+      <button type="button" class="active" data-mode="1account" role="tab" aria-selected="true"><i class="fa-solid fa-user"></i> Single account</button>
+      <button type="button" data-mode="2accounts" role="tab" aria-selected="false"><i class="fa-solid fa-user-group"></i> Two accounts</button>
+    </div>
+
+    <div class="seg" id="gridSeg" role="tablist" aria-label="Grid density">
+      <button type="button" class="active" data-grid="one" role="tab" aria-selected="true"><i class="fa-solid fa-square"></i> 1 per row</button>
+      <button type="button" data-grid="two" role="tab" aria-selected="false"><i class="fa-solid fa-table-cells"></i> 2 per row</button>
+    </div>
+
+    <div style="display:flex; gap:12px;">
+      <button id="formatBtn" class="btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate</button>
+      <button id="copyAllBtn" class="btn secondary"><i class="fa-solid fa-copy"></i> Copy all</button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main class="container">
+    <!-- Input -->
+    <section class="panel">
+      <textarea id="inputText" placeholder="Paste lines here…
+Example:
+user@mail.com pass123 123.abc.xyz pass123 ABCDEFGHIJKLMNOP"></textarea>
+      <div class="hint">Format: <b>email  -   password  -   token   -   password(ignored)   -    2FA</b></div>
+    </section>
+
+    <!-- Output -->
+    <section class="panel result-wrap">
+      <div class="result-head">
+        <span class="chip"><i class="fa-solid fa-box-archive"></i> Output</span>
+        <div class="inline-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="search" class="search" type="search" placeholder="Search in results…" />
+        </div>
+      </div>
+      <div id="cards" class="cards one" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <!-- Footer (centered) -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <a class="icon-link" href="https://github.com/mohamedkhire" target="_blank" rel="noopener" title="GitHub — Mohamed Khire">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <span>Made with 🤍 by <a href="https://github.com/mohamedkhire" target="_blank" rel="noopener">Mohamed Khire</a></span>
+    </div>
+  </footer>
+
+  <!-- Toast Center -->
+  <div id="toasts" class="toasts" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+    const $  = (s,scope=document)=>scope.querySelector(s);
+    const $$ = (s,scope=document)=>Array.from(scope.querySelectorAll(s));
+
+    const inputEl   = $('#inputText');
+    const formatBtn = $('#formatBtn');
+    const copyAllBtn= $('#copyAllBtn');
+    const cardsEl   = $('#cards');
+    const lineCountEl = $('#lineCount');
+    const searchEl  = $('#search');
+    const toastsEl  = $('#toasts');
+
+    /* Counter */
+    const countValid = (text)=> text.split('\n').map(l=>l.trim()).filter(l=>l && l.split(/\s+/).length>=5).length;
+    const updateCounter = ()=> lineCountEl.textContent = countValid(inputEl.value);
+    inputEl.addEventListener('input', updateCounter); updateCounter();
+
+    /* Toasts */
+    function toast(message, type='info', iconHTML='<i class="fa-solid fa-circle-info"></i>'){
+      const item = document.createElement('div');
+      item.className = `toast ${type}`;
+      item.innerHTML = `<span class="icon">${iconHTML}</span><span class="text">${message}</span>`;
+      toastsEl.appendChild(item);
+      requestAnimationFrame(()=> item.classList.add('show'));
+      setTimeout(()=>{ item.classList.remove('show'); setTimeout(()=>item.remove(), 500); }, 2400);
+    }
+
+    /* Segments */
+    let currentMode = '1account';
+    $('#modeSeg').addEventListener('click', (e)=>{
+      const btn = e.target.closest('button[data-mode]'); if(!btn) return;
+      currentMode = btn.getAttribute('data-mode');
+      $$('#modeSeg button').forEach(b=>{ b.classList.toggle('active', b===btn); b.setAttribute('aria-selected', b===btn ? 'true' : 'false'); });
+      toast('Mode: ' + (currentMode==='1account'?'Single account':'Two accounts'), 'info', '<i class="fa-solid fa-circle-info"></i>');
+    });
+
+    let currentGrid = 'one';
+    $('#gridSeg').addEventListener('click', (e)=>{
+      const btn = e.target.closest('button[data-grid]'); if(!btn) return;
+      currentGrid = btn.getAttribute('data-grid');
+      $$('#gridSeg button').forEach(b=>{ b.classList.toggle('active', b===btn); b.setAttribute('aria-selected', b===btn ? 'true' : 'false'); });
+      cardsEl.classList.toggle('two', currentGrid==='two');
+      cardsEl.classList.toggle('one', currentGrid==='one');
+      toast('Grid: ' + (currentGrid==='one'?'1 per row':'2 per row'), 'info', '<i class="fa-solid fa-table-cells"></i>');
+    });
+
+    /* Helpers */
+    const SEP_SINGLE = "------------------------------------------------------------";
+    const SEP_DOUBLE_LAST = "-----------------------------------------------------------";
+    const LINKS_BLOCK =
+`2FA Setup Video: https://streamable.com/49ijq0
+Token Login Google Extension: https://chromewebstore.google.com/detail/discord-token-login/dgejhipdiojpnoggmehdiicanhnbdngk`;
+
+    const buildBlock = (parts)=>{
+      const [email='', password='', token='', _ignored='', twofa=''] = parts;
+      return `Email + Discord: ${email}
+Password + Discord: ${password}
+Token: ${token}
+2FA Key: ${twofa}`;
+    };
+
+    function copyText(txt){
+      return navigator.clipboard.writeText(txt).then(()=>{
+        toast('Copied to clipboard', 'success', '<i class="fa-solid fa-circle-check"></i>');
+      }).catch(()=>{
+        const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
+        try{ document.execCommand('copy'); toast('Copied', 'success', '<i class="fa-solid fa-circle-check"></i>'); }
+        catch{ toast('Copy failed', 'warn', '<i class="fa-solid fa-triangle-exclamation"></i>'); }
+        document.body.removeChild(ta);
+      });
+    }
+
+    const parseLines = (raw)=>{
+      const lines = raw.split('\n').map(l=>l.trim()).filter(Boolean);
+      const good = [], bad = [];
+      lines.forEach(l => (l.split(/\s+/).length>=5 ? good : bad).push(l));
+      return {good, bad};
+    };
+
+    /* Card renderer (with stagger for entrance) */
+    function renderCard(index, partsList){
+      const card = document.createElement('div');
+      card.className = 'account-card';
+      card.style.animationDelay = `${Math.min(index*40, 400)}ms`;
+      card.dataset.mode = partsList.length===2 ? 'double' : 'single';
+      card.dataset.raw = JSON.stringify(partsList);
+
+      const header = document.createElement('div'); header.className='card-header';
+      const title = document.createElement('div'); title.className='card-title';
+      title.innerHTML = `<i class="fa-solid fa-id-card-clip"></i> Card ${index}
+        <span class="badge">${partsList.length===2 ? '<i class="fa-solid fa-user-group"></i> Two accounts' : '<i class="fa-solid fa-user"></i> Single account'}</span>`;
+
+      const icons = document.createElement('div'); icons.className='card-icons';
+      const iconCopy = document.createElement('button'); iconCopy.className='icon-action copy'; iconCopy.title='Copy card'; iconCopy.setAttribute('data-act','copy'); iconCopy.innerHTML='<i class="fa-solid fa-copy"></i>';
+      const iconDel  = document.createElement('button'); iconDel.className='icon-action delete'; iconDel.title='Delete card'; iconDel.setAttribute('data-act','delete'); iconDel.innerHTML='<i class="fa-solid fa-trash-can"></i>';
+      icons.append(iconCopy, iconDel);
+      header.append(title, icons);
+
+      const body = document.createElement('div'); body.className='rows';
+      const row = (icon, label, value)=>{
+        const r = document.createElement('div'); r.className='row';
+        r.innerHTML = `${icon}<b>${label}</b>&nbsp;<span class="val">${value||''}</span>`;
+        const mini = document.createElement('button'); mini.className='copy-mini'; mini.textContent='Copy'; mini.title=`Copy ${label}`;
+        mini.addEventListener('click', ()=>{
+          const v = r.querySelector('.val').textContent.trim();
+          if(!v){ toast('Nothing to copy', 'warn', '<i class="fa-solid fa-triangle-exclamation"></i>'); return; }
+          copyText(v);
+        });
+        r.appendChild(mini);
+        return r;
+      };
+
+      partsList.forEach((p, idx)=>{
+        body.append(
+          row('<i class="fa-solid fa-envelope"></i>', 'Email + Discord:', p[0]),
+          row('<i class="fa-solid fa-lock"></i>',     'Password + Discord:', p[1]),
+          row('<i class="fa-solid fa-key"></i>',      'Token:', p[2]),
+          row('<i class="fa-solid fa-shield-halved"></i>', '2FA Key:', p[4]),
+        );
+        if(idx<partsList.length-1) body.append(Object.assign(document.createElement('hr'),{className:'sep'}));
+      });
+
+     
+      card.append(header, body);
+      return card;
+    }
+
+    /* Generate */
+    formatBtn.addEventListener('click', ()=>{
+      const raw = inputEl.value.trim();
+      if(!raw){ toast('Please paste some lines', 'warn', '<i class="fa-solid fa-triangle-exclamation"></i>'); return; }
+
+      const {good, bad} = parseLines(raw);
+      cardsEl.innerHTML='';
+      const frag = document.createDocumentFragment();
+
+      if(currentMode==='1account'){
+        good.forEach((line, i)=> frag.append(renderCard(i+1, [line.split(/\s+/)])));
+      }else{
+        for(let i=0, ci=1; i<good.length; i+=2, ci++){
+          const p1 = (good[i]||'').split(/\s+/);
+          const p2 = good[i+1] ? good[i+1].split(/\s+/) : null;
+          frag.append( renderCard(ci, p2 ? [p1, p2] : [p1]) );
+        }
+      }
+      cardsEl.append(frag);
+
+      if(good.length){ toast(`Created ${good.length} card(s)`, 'success', '<i class="fa-solid fa-circle-check"></i>'); }
+      if(bad.length){ toast(`Ignored ${bad.length} invalid line(s)`, 'warn', '<i class="fa-solid fa-triangle-exclamation"></i>'); }
+    });
+
+    /* Card actions (copy/delete) */
+    cardsEl.addEventListener('click', (e)=>{
+      const actBtn = e.target.closest('[data-act]'); if(!actBtn) return;
+      const card = e.target.closest('.account-card'); if(!card) return;
+
+      const partsList = JSON.parse(card.dataset.raw || '[]');
+      const build = (p)=>`Email + Discord: ${p[0]||''}
+Password + Discord: ${p[1]||''}
+Token: ${p[2]||''}
+2FA Key: ${p[4]||''}`;
+
+      const act = actBtn.getAttribute('data-act');
+      if(act==='delete'){
+        card.remove();
+        toast('Card removed', 'danger', '<i class="fa-solid fa-trash-can"></i>');
+        return;
+      }
+      if(act==='copy'){
+        let textOut = '';
+        if(card.dataset.mode==='single'){
+          textOut = `${build(partsList[0])}\n${SEP_SINGLE}\n${LINKS_BLOCK}`;
+        }else{
+          const first  = build(partsList[0]);
+          const second = build(partsList[1] || ['','','','','']);
+          textOut = `${first}\n${SEP_SINGLE}\n${second}\n${SEP_DOUBLE_LAST}\n${LINKS_BLOCK}`;
+        }
+        copyText(textOut);
+      }
+    });
+
+    /* Copy all */
+    copyAllBtn.addEventListener('click', ()=>{
+      const cards = $$('.account-card', cardsEl);
+      if(!cards.length){ toast('Nothing to copy', 'warn', '<i class="fa-solid fa-triangle-exclamation"></i>'); return; }
+      const build = (p)=>`Email + Discord: ${p[0]||''}
+Password + Discord: ${p[1]||''}
+Token: ${p[2]||''}
+2FA Key: ${p[4]||''}`;
+
+      const texts = cards.map(card=>{
+        const partsList = JSON.parse(card.dataset.raw || '[]');
+        if(card.dataset.mode==='single'){
+          return `${build(partsList[0])}\n${SEP_SINGLE}\n${LINKS_BLOCK}`;
+        }else{
+          const first  = build(partsList[0]);
+          const second = build(partsList[1] || ['','','','','']);
+          return `${first}\n${SEP_SINGLE}\n${second}\n${SEP_DOUBLE_LAST}\n${LINKS_BLOCK}`;
+        }
+      });
+      copyText(texts.join('\n\n'));
+    });
+
+    /* Search */
+    searchEl.addEventListener('input', ()=>{
+      const q = searchEl.value.trim().toLowerCase();
+      $$('.account-card', cardsEl).forEach(card=>{
+        card.style.display = card.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+    });
+
+    /* Live counter update */
+    inputEl.addEventListener('input', ()=>{ lineCountEl.textContent = countValid(inputEl.value); });
+  </script>
+</body>
+</html>
